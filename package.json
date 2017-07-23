@@ -1,0 +1,14 @@
+{
+  "name": "osm_notes",
+  "version": "1.0.0",
+  "description": "My OpenStreetMap notes",
+  "main": "docs/index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "OSM"
+  ],
+  "author": "iigmir",
+  "license": "MIT"
+}
