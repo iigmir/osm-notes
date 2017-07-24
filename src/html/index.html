@@ -1,0 +1,35 @@
+<!-- @@master  = ../core.html-->
+
+<!-- @@block = title  -->
+    <title>OpenStreetMap</title>
+<!-- @@close  -->
+
+<!-- @@block = css  -->
+<style>
+    #mainmap { height:360px; }
+</style>
+<!-- @@close  -->
+
+<!-- @@block = main  -->
+<main class="container">
+    <h1 class="text-center">OpenStreetMap Notes</h1>
+    <div class="jumbotron">
+        <div id="mainmap"></div>
+    </div>
+</main>
+<!-- @@close-->
+
+<!-- @@block = js  -->
+<script>
+var map = new ol.Map
+({
+    target: 'mainmap',
+    layers:[ new ol.layer.Tile({ source: new ol.source.OSM() }) ],
+    view: new ol.View
+    ({
+        center: ol.proj.fromLonLat([120.6667,24.15]),
+        zoom: 13
+    })
+});
+</script>
+<!-- @@close-->

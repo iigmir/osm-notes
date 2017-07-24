@@ -4,6 +4,8 @@ var browserSync = require('browser-sync').create();
 var rename = require("gulp-rename");
 var sass = require("gulp-sass");
 var cssmin = require("gulp-cssmin");
+var extender = require("gulp-html-extend");
+
 
 gulp.task("browser-sync", function()
 {   
@@ -13,7 +15,14 @@ gulp.task("browser-sync", function()
     });
 });
 
-gulp.task("sass",function()
+gulp.task("html",function()
+{
+    gulp.src('src/html/*.html')
+        .pipe(extender({annotations:true,verbose:false}))
+        .pipe(gulp.dest('./docs'));
+});
+
+gulp.task("css",function()
 {
     return gulp.src("src/scss/*")
     .pipe(sass({outputStyle: 'compressed'}).on("error", sass.logError))
@@ -26,10 +35,10 @@ gulp.task("js",function()
     // 
 });
 
-
 gulp.task("watch", function()
 {
-    gulp.watch("src/scss/*.scss", ['sass']);
+    gulp.watch("src/html/*.html", ["html"]);
+    gulp.watch("src/scss/*.scss", ["css"]);
     // gulp.watch("src/js/*.js", ['js']);
     gulp.watch("docs/*/*").on('change', browserSync.reload);
     gulp.watch("docs/*").on('change', browserSync.reload);
