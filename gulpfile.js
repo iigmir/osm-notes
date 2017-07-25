@@ -5,7 +5,7 @@ var rename = require("gulp-rename");
 var sass = require("gulp-sass");
 var cssmin = require("gulp-cssmin");
 var extender = require("gulp-html-extend");
-
+var fileinclude = require('gulp-file-include');
 
 gulp.task("browser-sync", function()
 {   

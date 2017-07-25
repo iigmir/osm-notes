@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
 <!-- start title -->
-    <title>OpenStreetMap</title>
+    <title>OpenStreetMap：便覽</title>
 
 <!-- end title -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -11,9 +11,7 @@
     <link rel="stylesheet" href="https://openlayers.org/en/v4.2.0/css/ol.css">
     <link rel="stylesheet" href="css/core.min.css" />
 <!-- start css -->
-<style>
-    #mainmap { height:360px; }
-</style>
+
 
 <!-- end css -->
 </head>
@@ -45,16 +43,12 @@
 
     <main class="container">
 <!-- start main -->
-    <h1 class="text-center">OpenStreetMap Notes</h1>
-    <div class="jumbotron">
-        <div id="mainmap"></div>
-    </div>
-    <p><a href="https://www.openstreetmap.org">OpenStreetMap(OSM)</a> 是一個自由開源的地圖服務，地圖資訊由志願者編輯與繪製。你可以透過 <a href="https://openlayers.org/">OpenLayers</a> 把需要的資訊與 OSM 介接起來。</p>
+
 
 <!-- end main -->
         <div id="pagenav" class="text-center">
 <!-- start pagenav -->
-    <a href="intro.html" class="btn btn-primary btn-lg text-center" role="button" aria-pressed="true">簡單介紹</a>
+
 
 <!-- end pagenav -->
         </div>
@@ -65,18 +59,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
 <!-- start js -->
-<script>
-var map = new ol.Map
-({
-    target: 'mainmap',
-    layers:[ new ol.layer.Tile({ source: new ol.source.OSM() }) ],
-    view: new ol.View
-    ({
-        center: ol.proj.fromLonLat([120.6667,24.15]),
-        zoom: 13
-    })
-});
-</script>
+
 
 <!-- end js -->
 </body>
