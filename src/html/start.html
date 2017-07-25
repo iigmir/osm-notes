@@ -8,7 +8,49 @@
 <!-- @@close  -->
 
 <!-- @@block = main  -->
-<h1>Hi</h1>
+<h1 class="text-center">起步走</h1>
+<p>讓我們直接看<a href="http://openlayers.org/en/latest/doc/quickstart.html">官方的範例</a>吧。</p>
+<script async src="//jsfiddle.net/iigmir/6pgx29y5/embed/"></script>
+<p>你應該會看到中心點位於東非一帶。</p>
+<hr />
+<p>如果要使用 OSM 的話，首先你必須要引用 Openlayers 的 CSS 與 JS 檔案：</p>
+<pre>
+&lt;-- CSS --&gt;
+&lt;link rel="stylesheet" href="https://openlayers.org/en/v4.2.0/css/ol.css" type="text/css"&gt;
+
+&lt;-- JS  --&gt;
+&lt;script src="https://openlayers.org/en/v4.2.0/build/ol.js" type="text/javascript"&gt;&lt;/script&gt;
+</pre>
+<p>接著，我們需要一個指定好大小的元件來放地圖：</p>
+<pre>
+&lt;div id="map"&gt;&lt;/div&gt;
+
+&lt;-- CSS 區域內 --&gt;
+#map {
+  height: 400px;
+  width: 100%;
+}
+</pre>
+<p>再接著是重頭戲：JavaScript！</p>
+<p>OpenLayers API 第四代變得很像是 <a href="http://vuejs.org/">Vue</a> 一樣。相當有趣。</p>
+<p>範例中，我們建立了新的物件 <a href="http://openlayers.org/en/latest/apidoc/ol.Map.html">ol.Map</a>。裡面最少要有三個 instanse：</p>
+<ol>
+    <li><code>target</code>：指定要把地圖放到哪個 <strong>ID element</strong>。注意，你一定要指定好該 ID element 的長與高。</li>
+    <li><a href="http://openlayers.org/en/latest/apidoc/ol.layer.html"><code>layers</code></a>：你想要載入的圖層。有很多可以用的圖層，上面的範例 <code>new ol.layer.Tile({ source: new ol.source.OSM() })</code> 就載入了 OpenStreetMap 的圖層。當然也可以蓋上其他的圖層。</li>
+    <li><a href="http://openlayers.org/en/latest/apidoc/ol.View.html"><code>view</code></a>：上例指定了兩個初始數值：
+        <ol>
+            <li><code>center</code>：地圖一開始要在哪裡。我們可以使用 <a href="http://openlayers.org/en/latest/apidoc/ol.proj.html#.fromLonLat">ol.proj.fromLonLat</a>。API 陣列是有順序的：第一個元素要放經度（Longitude）、第二個則是緯度（Latitude）。<a href="https://developers.google.com/maps/documentation/javascript/3.exp/reference?hl=zh-tw#LatLng">正好與 Google Maps 相反</a>，用 Google Maps 串接過的必須特別注意。<strong>絕對不可以把 Google 搜尋到的經緯度直接貼過去</strong>，而是要確定經度哪個、緯度哪個。</li>
+            <li><code>zoom</code>：OL 的縮放是按照解析度的。</li>
+        </ol>
+    </li>
+</ol>
+<hr />
+<p>現在開始進 <a href="https://jsfiddle.net/iigmir/6pgx29y5/">JSFiddle</a> 玩玩看吧。</p>
+<ol>
+    <li>把 <code>center: ol.proj.fromLonLat([37.41, 8.82])</code> 裡面的陣列改為 <code>[35.6894,139.692]</code>，請問會座落到哪裡？</li>
+    <li><a href="https://developers.google.com/maps/documentation/javascript/tutorial?hl=zh-tw">Google Maps 的教學文件</a>的範例中心點是澳洲的新南威爾斯。試試看，怎麼讓 OSM 一開始也座落於澳洲的新南威爾斯呢？層級不限！<br />提示：Google Maps 的教學文件裡面，經度是 150.644、緯度是 -34.397。</li>
+    <li>看一下維基百科的<a href="https://zh.wikipedia.org/wiki/%E8%87%BA%E4%B8%AD%E5%B8%82">台中市的座標</a>，想辦法讓地圖的中心變成台中市。層級只要看得到台中市就可以。</li>
+</ol>
 <!-- @@close-->
 
 <!-- @@block = js  -->
