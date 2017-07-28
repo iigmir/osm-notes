@@ -9,13 +9,67 @@
 
 <!-- @@block = main  -->
 <h1 class="text-center">做個標示</h1>
-<p>讓我們直接複製<a href="http://openlayers.org/en/latest/doc/quickstart.html">官方的範例</a>吧。</p>
+<p>現在來開始地圖常見的標示了。同樣的，先給個地圖：</p>
 <div id="exp"></div>
-<script async src="//jsfiddle.net/iigmir/6pgx29y5/embed/"></script>
-<p>你應該會看到中心點位於東非一帶。</p>
-<hr />
-<p>現在開始進 <a href="https://jsfiddle.net/iigmir/6pgx29y5/">JSFiddle</a> 玩玩看吧。</p>
+<p>在 OpenLayers 裡面要做標示的話，就要做兩個圖層：一個是底圖的圖層、另一個是標示的圖層。你可以想成在現實的地圖要寫指示：我們會在地圖上面放一張半透明紙，接著在那張半透明紙上寫東西。這樣把標示與底圖分離，會方便我們更改標示、也方便我們更換風格不同的底圖。</p>
+<p>這就是為什麼在引用地圖的 <code>new ol.Map</code> 我要這樣寫：</p>
+<pre>layers: [osm_layer , marker_layer],</pre>
+<p></p>
 <!-- @@close-->
 
 <!-- @@block = js  -->
+<script>
+var london = new ol.Feature
+({
+    geometry: new ol.geom.Point(ol.proj.fromLonLat([-0.12755, 51.507222]))
+});
+london.setStyle(new ol.style.Style
+({
+    image: new ol.style.Icon
+    (({
+      color: '#4271AE',
+      crossOrigin: 'anonymous',
+      src: 'https://openlayers.org/en/v4.2.0/examples/data/dot.png'
+    }))
+}));
+
+var tokyo = new ol.Feature
+({
+    geometry: new ol.geom.Point(ol.proj.fromLonLat([139.753611,35.693944]))
+});
+tokyo.setStyle(new ol.style.Style
+({
+    image:new ol.style.Icon
+    (({
+        src: "https://upload.wikimedia.org/wikipedia/commons/4/49/Tokyo_Tokyo_chapter.svg",
+        scale:0.1
+    }))
+}));
+
+var markers = new ol.source.Vector
+({
+    features: [london , tokyo]
+});
+
+var marker_layer = new ol.layer.Vector
+({
+    source: markers
+});
+
+var osm_layer = new ol.layer.Tile
+({
+    source: new ol.source.OSM() 
+});
+
+var map = new ol.Map
+({
+    layers: [osm_layer , marker_layer],
+    target: document.getElementById('exp'),
+    view: new ol.View
+    ({
+        center: ol.proj.fromLonLat([2.896372, 44.60240]),
+        zoom: 3
+    })
+});
+</script>
 <!-- @@close-->
