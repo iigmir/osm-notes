@@ -12,9 +12,40 @@
 <p>現在來開始地圖常見的標示了。同樣的，先給個地圖：</p>
 <div id="exp"></div>
 <p>在 OpenLayers 裡面要做標示的話，就要做兩個圖層：一個是底圖的圖層、另一個是標示的圖層。你可以想成在現實的地圖要寫指示：我們會在地圖上面放一張半透明紙，接著在那張半透明紙上寫東西。這樣把標示與底圖分離，會方便我們更改標示、也方便我們更換風格不同的底圖。</p>
-<p>這就是為什麼在引用地圖的 <code>new ol.Map</code> 我要這樣寫：</p>
-<pre>layers: [osm_layer , marker_layer],</pre>
-<p></p>
+<p>這就是為什麼在引用地圖的 <code>new ol.Map</code> 我要這樣寫：<code>layers: [osm_layer , marker_layer],</code>：<code>osm_layer</code> 放的是 OSM 圖層，這裡不多談。這裡的重頭戲是 <code>marker_layer</code> 圖層。</p>
+<pre>
+var marker_layer = new ol.layer.Vector
+({
+    source: new ol.source.Vector
+    ({
+        features: [london , new_delhi , tokyo]
+    })
+});
+</pre>
+<p>因為標示是點，要用<a href="http://ngis.moea.gov.tw/moeaweb/Rinfo/KMSubItem.aspx?ID=21">向量資料</a>讀取它，所以我們會用 <code>ol.layer.Vector</code>，用向量的形式載入標示圖層。接著在 source 裡面，我們加了三個城市的標記：<a href="https://zh.wikipedia.org/zh-tw/倫敦">倫敦</a>、<a href="https://zh.wikipedia.org/zh-tw/新德里">新德里</a>、還有<a href="https://zh.wikipedia.org/zh-tw/東京">東京</a>。</p>
+<p>先從倫敦來看。</p>
+<pre>
+var london = new ol.Feature
+({
+    geometry: new ol.geom.Point(ol.proj.fromLonLat([-0.12755, 51.507222]))
+});
+london.setStyle(new ol.style.Style
+({
+    image: new ol.style.Icon
+    (({
+      color: '#4271AE',
+      crossOrigin: 'anonymous',
+      src: 'https://openlayers.org/en/v4.2.0/examples/data/dot.png'
+    }))
+}));
+</pre>
+<p>我們需要倫敦的向量標示，所以首先要有 <code>new ol.Feature</code> 物件，並在裡面增加 <code>ol.geom.Point</code> 這個物件。接著，告訴這個物件倫敦的座標。</p>
+<p>標記資訊完成後，就要設定它的樣式了。我們在這裡指定了<span style="color:#4271AE;">顏色</span>、CORS 選項、還有<a href="https://openlayers.org/en/v4.2.0/examples/data/dot.png">圖片來源</a>。</p>
+<p>把地圖移到印度的<span style="color:#FF9933;">新德里</span>，再看看原始碼，有什麼東西改變了呢？</p>
+<hr>
+<p>如果想要換成其他圖片呢？去修改 <code>ol.style.Icon</code> 的 <code>src</code> 就是了。你可以把地圖移到日本的東京看看。</p>
+<p>不過，<a href="https://upload.wikimedia.org/wikipedia/commons/4/49/Tokyo_Tokyo_chapter.svg">東京都徽</a>直接放下去會太大，所以必須要修改 <code>scale</code>。</p>
+<p>標示的修改可以參考 <a href="https://openlayers.org/en/latest/apidoc/ol.style.Icon.html">API</a>。</p>
 <!-- @@close-->
 
 <!-- @@block = js  -->
@@ -33,6 +64,20 @@ london.setStyle(new ol.style.Style
     }))
 }));
 
+var new_delhi = new ol.Feature
+({
+    geometry: new ol.geom.Point(ol.proj.fromLonLat([77.208889,28.613889]))
+});
+new_delhi.setStyle(new ol.style.Style
+({
+    image: new ol.style.Icon
+    (({
+      color: '#FF9933',
+      crossOrigin: 'anonymous',
+      src: 'https://openlayers.org/en/v4.2.0/examples/data/dot.png'
+    }))
+}));
+
 var tokyo = new ol.Feature
 ({
     geometry: new ol.geom.Point(ol.proj.fromLonLat([139.753611,35.693944]))
@@ -46,14 +91,13 @@ tokyo.setStyle(new ol.style.Style
     }))
 }));
 
-var markers = new ol.source.Vector
-({
-    features: [london , tokyo]
-});
 
 var marker_layer = new ol.layer.Vector
 ({
-    source: markers
+    source: new ol.source.Vector
+    ({
+        features: [london , new_delhi , tokyo]
+    })
 });
 
 var osm_layer = new ol.layer.Tile
