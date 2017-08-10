@@ -78,7 +78,7 @@ london.setStyle(new ol.style.Style
 <p>把地圖移到印度的<span style="color:#FF9933;">新德里</span>，再看看原始碼，有什麼東西改變了呢？</p>
 <hr>
 <p>如果想要換成其他圖片呢？去修改 <code>ol.style.Icon</code> 的 <code>src</code> 就是了。你可以把地圖移到日本的東京看看。</p>
-<p>不過，<a href="https://upload.wikimedia.org/wikipedia/commons/4/49/Tokyo_Tokyo_chapter.svg">東京都徽</a>直接放下去會太大，所以必須要修改 <code>scale</code>。</p>
+<p>不過這<a href="https://upload.wikimedia.org/wikipedia/commons/c/cb/PrefSymbol-Tokyo.svg">東京都標誌</a>直接放下去會太大，所以必須要修改 <code>scale</code>。</p>
 <p>標示的修改可以參考 <a href="https://openlayers.org/en/latest/apidoc/ol.style.Icon.html">API</a>。</p>
 
 <!-- end main -->
@@ -132,8 +132,8 @@ tokyo.setStyle(new ol.style.Style
 ({
     image:new ol.style.Icon
     (({
-        src: "https://upload.wikimedia.org/wikipedia/commons/4/49/Tokyo_Tokyo_chapter.svg",
-        scale:0.1
+        src: "https://upload.wikimedia.org/wikipedia/commons/c/cb/PrefSymbol-Tokyo.svg",
+        scale:0.05
     }))
 }));
 
