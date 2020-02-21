@@ -16,12 +16,13 @@ const reload = done =>
     done();
 }
 
-const html = () => gulp.src('src/html/*.html').pipe(extender({annotations:true,verbose:false})).pipe(gulp.dest('./docs'));
+const html = () => gulp.src("src/html/*.html")
+.pipe( extender({ annotations:true, verbose:false }) )
+.pipe( gulp.dest( "./docs" ) );
 
-const css = () => gulp.src("src/scss/*.scss")
-.pipe(sass({outputStyle: 'compressed'}).on("error", sass.logError))
-.pipe(rename({suffix: '.min'}))
-.pipe(gulp.dest("docs/css"));
+const css = () => gulp.src( "src/scss/*.scss" )
+.pipe( sass({ outputStyle: "compressed" } ).on( "error", sass.logError) )
+.pipe( rename({ suffix: ".min" }) ).pipe( gulp.dest("docs/css") );
 
 const js = () => {};
 
@@ -32,5 +33,4 @@ const watch = () =>
     gulp.watch("src/js/*.js", gulp.series( js , reload ) );
 };
 
-// exports.build = build;
 exports.default = gulp.series( browser_sync, watch );
