@@ -1,41 +1,46 @@
-var gulp = require("gulp");
-var browserSync = require('browser-sync').create();
-var rename = require("gulp-rename");
-var sass = require("gulp-sass");
-var cssmin = require("gulp-cssmin");
-var extender = require("gulp-html-extend");
-var fileinclude = require('gulp-file-include');
+const gulp = require("gulp");
+const browserSync = require('browser-sync').create();
+const rename = require("gulp-rename");
+const sass = require("gulp-sass");
+const extender = require("gulp-html-extend");
 
-const browser_sync = () =>
+const browser_sync = done =>
 {
-    return browserSync.init({ server: { baseDir: "./docs" } });
+    browserSync.init({ server: { baseDir: "./docs" } });
+    done();
 };
+
+const reload = done =>
+{
+    server.reload();
+    done();
+}
 
 const html = () =>
 {
-    return gulp.src('src/html/*.html')
+    gulp.src('src/html/*.html')
         .pipe(extender({annotations:true,verbose:false}))
         .pipe(gulp.dest('./docs'));;
 };
 
 const css = () =>
 {
-    return gulp.src("src/scss/*.scss")
-    .pipe(sass({outputStyle: 'compressed'}).on("error", sass.logError))
-    .pipe(rename({suffix: '.min'}))
-    .pipe(gulp.dest("docs/css"));
+    gulp.src("src/scss/*.scss")
+        .pipe(sass({outputStyle: 'compressed'}).on("error", sass.logError))
+        .pipe(rename({suffix: '.min'}))
+        .pipe(gulp.dest("docs/css"));
 };
 
 const js = () => {};
 
 const watch = () =>
 {
-    gulp.watch("src/html/*.html", () => html() );
-    gulp.watch("src/scss/*.scss", () => css() );
-    gulp.watch("src/js/*.js", () => js() );
-    gulp.watch("docs/*/*").on("change", browserSync.reload);
-    gulp.watch("docs/*").on("change", browserSync.reload);
+    gulp.watch("src/html/*.html", gulp.series( html , reload ) );
+    gulp.watch("src/scss/*.scss", gulp.series( css , reload ) );
+    gulp.watch("src/js/*.js", gulp.series( js , reload ) );
+    // gulp.watch("docs/*/*").on("change", browserSync.reload);
+    // gulp.watch("docs/*").on("change", browserSync.reload);
 };
 
 // exports.build = build;
-exports.default = gulp.series( watch, browser_sync );
+exports.default = gulp.series( browser_sync, watch );
