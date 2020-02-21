@@ -1,4 +1,3 @@
-"use strict";
 var gulp = require("gulp");
 var browserSync = require('browser-sync').create();
 var rename = require("gulp-rename");
@@ -7,41 +6,36 @@ var cssmin = require("gulp-cssmin");
 var extender = require("gulp-html-extend");
 var fileinclude = require('gulp-file-include');
 
-gulp.task("browser-sync", function()
-{   
-    browserSync.init
-    ({
-        server: { baseDir: "./docs" }
-    });
-});
-
-gulp.task("html",function()
+const browser_sync = () =>
 {
-    gulp.src('src/html/*.html')
-        .pipe(extender({annotations:true,verbose:false}))
-        .pipe(gulp.dest('./docs'));
-});
+    return browserSync.init({ server: { baseDir: "./docs" } });
+};
 
-gulp.task("css",function()
+const html = () =>
+{
+    return gulp.src('src/html/*.html')
+        .pipe(extender({annotations:true,verbose:false}))
+        .pipe(gulp.dest('./docs'));;
+};
+
+const css = () =>
 {
     return gulp.src("src/scss/*.scss")
     .pipe(sass({outputStyle: 'compressed'}).on("error", sass.logError))
     .pipe(rename({suffix: '.min'}))
     .pipe(gulp.dest("docs/css"));
-});
+};
 
-gulp.task("js",function()
+const js = () => {};
+
+const watch = () =>
 {
-    // Nothing used
-});
+    gulp.watch("src/html/*.html", () => html() );
+    gulp.watch("src/scss/*.scss", () => css() );
+    gulp.watch("src/js/*.js", () => js() );
+    gulp.watch("docs/*/*").on("change", browserSync.reload);
+    gulp.watch("docs/*").on("change", browserSync.reload);
+};
 
-gulp.task("watch", function()
-{
-    gulp.watch("src/html/*.html", ["html"]);
-    gulp.watch("src/scss/*.scss", ["css"]);
-    gulp.watch("src/js/*.js", ['js']);
-    gulp.watch("docs/*/*").on('change', browserSync.reload);
-    gulp.watch("docs/*").on('change', browserSync.reload);
-});
-
-gulp.task('default',['browser-sync','watch']);
+// exports.build = build;
+exports.default = gulp.series( watch, browser_sync );
