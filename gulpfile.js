@@ -12,24 +12,16 @@ const browser_sync = done =>
 
 const reload = done =>
 {
-    server.reload();
+    browserSync.reload();
     done();
 }
 
-const html = () =>
-{
-    gulp.src('src/html/*.html')
-        .pipe(extender({annotations:true,verbose:false}))
-        .pipe(gulp.dest('./docs'));;
-};
+const html = () => gulp.src('src/html/*.html').pipe(extender({annotations:true,verbose:false})).pipe(gulp.dest('./docs'));
 
-const css = () =>
-{
-    gulp.src("src/scss/*.scss")
-        .pipe(sass({outputStyle: 'compressed'}).on("error", sass.logError))
-        .pipe(rename({suffix: '.min'}))
-        .pipe(gulp.dest("docs/css"));
-};
+const css = () => gulp.src("src/scss/*.scss")
+.pipe(sass({outputStyle: 'compressed'}).on("error", sass.logError))
+.pipe(rename({suffix: '.min'}))
+.pipe(gulp.dest("docs/css"));
 
 const js = () => {};
 
@@ -38,8 +30,6 @@ const watch = () =>
     gulp.watch("src/html/*.html", gulp.series( html , reload ) );
     gulp.watch("src/scss/*.scss", gulp.series( css , reload ) );
     gulp.watch("src/js/*.js", gulp.series( js , reload ) );
-    // gulp.watch("docs/*/*").on("change", browserSync.reload);
-    // gulp.watch("docs/*").on("change", browserSync.reload);
 };
 
 // exports.build = build;
