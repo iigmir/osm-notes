@@ -22,7 +22,7 @@
     "gulp-jsmin": "^0.1.5",
     "gulp-minify": "^3.1.0",
     "gulp-rename": "2.0.0",
-    "gulp-sass": "^4.0.2",
+    "gulp-sass": "^5.1.0",
     "gulp-uglify": "^3.0.2",
     "pump": "^3.0.0"
   },
